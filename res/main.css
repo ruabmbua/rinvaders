@@ -1,0 +1,10 @@
+#main_canvas {
+    margin: auto;
+    display: block;
+    border: 1px solid lightgray;
+    box-shadow: 0px 0px 10px;
+}
+
+h1 {
+    text-align: center;
+}
