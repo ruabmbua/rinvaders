@@ -1,9 +1,12 @@
 use web_sys::KeyboardEvent;
 
 pub struct Input {
-    pub go_left: bool,
-    pub go_right: bool,
-    pub shoot: bool,
+    go_left: bool,
+    go_right: bool,
+    shoot: bool,
+    gp_go_left: bool,
+    gp_go_right: bool,
+    gp_shoot: bool,
     event_queue: Vec<KeyEvent>,
 }
 
@@ -13,9 +16,30 @@ impl Input {
             go_left: false,
             go_right: false,
             shoot: false,
+            gp_go_left: false,
+            gp_go_right: false,
+            gp_shoot: false,
             event_queue: Vec::with_capacity(8),
         }
     }
+
+    pub fn left(&self) -> bool {
+        self.gp_go_left | self.go_left
+    }
+
+    pub fn right(&self) -> bool {
+        self.gp_go_right | self.go_right
+    }
+
+    pub fn shoot(&self) -> bool {
+        self.gp_shoot | self.shoot
+    }
+
+    pub fn set_gamepad_state(&mut self, left: bool, right: bool, shoot: bool) {
+		self.gp_go_left = left;
+        self.gp_go_right = right;
+        self.gp_shoot = shoot;
+	}
 
     pub fn update(&mut self, ts: u32) {
         for e in self.event_queue.drain(0..self.event_queue.len()) {

@@ -11,7 +11,7 @@ mod input;
 mod rendering;
 mod utils;
 
-use self::rendering::Renderable;
+use self::rendering::{CssColor, CssFont, Pos, Renderable};
 use self::utils::Timer;
 use wasm_bindgen::prelude::*;
 use web_sys::{HtmlCanvasElement, KeyboardEvent};
@@ -29,6 +29,7 @@ pub struct Game {
 	enemy_spawn_tick: u8,
 	explosions: Vec<entites::Explosion>,
 	explosion_tick: u8,
+	score: entites::Score,
 }
 
 const TICK: u32 = 10;
@@ -49,6 +50,12 @@ impl Game {
 			enemy_spawn_tick: 0,
 			explosions: vec![],
 			explosion_tick: 0,
+			score: entites::Score::new(
+				CssColor::new(0, 50, 200),
+				CssFont::monospace(20),
+				"Score".to_owned(),
+				Pos::new(600.0, 20.0),
+			),
 		}
 	}
 
@@ -77,6 +84,7 @@ impl Game {
 		let display_list: &[&dyn Renderable] = &[
 			&self.player as &dyn Renderable,
 			&self.fps_counter as &dyn Renderable,
+			&self.score as &dyn Renderable,
 		];
 		self.renderer.draw(&display_list);
 	}
@@ -93,6 +101,7 @@ impl Game {
 		let enemy_spawn_tick = &mut self.enemy_spawn_tick;
 		let explosions = &mut self.explosions;
 		let explosion_tick = &mut self.explosion_tick;
+		let score = &mut self.score;
 
 		game_tick.check(ts, |off| {
 			for _ in 0..(off + TICK) / TICK {
@@ -142,6 +151,7 @@ impl Game {
 							utils::cap(p.pos_x as i32 - 1, 0, 79) as u32,
 							utils::cap(p.pos_y as i32 + 1, 0, 59) as u32,
 						));
+						score.add(5);
 						false
 					} else {
 						true
@@ -149,6 +159,10 @@ impl Game {
 				});
 			}
 		});
+	}
+
+	pub fn set_gamepad_state(&mut self, left: bool, right: bool, shoot: bool) {
+		self.input.set_gamepad_state(left, right, shoot);
 	}
 }
 

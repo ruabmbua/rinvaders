@@ -25,11 +25,11 @@ impl Player {
 
     pub fn update(&mut self, ts: u32, input: &Input, projectiles: &mut Vec<Projectile>) {
         fn do_movement(pos: &mut u32, input: &Input) {
-            if input.go_left && input.go_right {
+            if input.left() && input.right() {
                 return;
-            } else if *pos > 0 && input.go_left {
+            } else if *pos > 0 && input.left() {
                 *pos -= 1;
-            } else if *pos < 77 && input.go_right {
+            } else if *pos < 77 && input.right() {
                 *pos += 1;
             }
         }
@@ -50,7 +50,7 @@ impl Player {
                     for _ in 0..(off + SPEED) / SPEED {
                         do_movement(pos, &input);
                     }
-                    !input.go_left && !input.go_right
+                    !input.left() && !input.right()
                 }).map(|over| {
                     if over {
                         *timer = None;
@@ -66,14 +66,14 @@ impl Player {
 
         let need_timer = match shoot_timer {
             None => {
-                if input.shoot {
+                if input.shoot() {
                     projectiles.push(Projectile::new(*pos + 1));
                 }
                 true
             }
             Some(t) => {
                 t.check(ts, |_off| {
-                    if input.shoot {
+                    if input.shoot() {
                         projectiles.push(Projectile::new(*pos + 1));
                         false
                     } else {

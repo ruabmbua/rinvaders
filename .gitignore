@@ -1,3 +1,6 @@
 /target
 **/*.rs.bk
 Cargo.lock
+res/rinvaders.js
+res/rinvaders.d.ts
+res/rinvaders_bg.wasm
