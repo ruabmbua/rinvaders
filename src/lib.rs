@@ -3,6 +3,7 @@ extern crate wasm_bindgen;
 extern crate web_sys;
 #[macro_use]
 extern crate lazy_static;
+extern crate wee_alloc;
 
 mod entites;
 #[macro_use]
@@ -15,6 +16,9 @@ use self::rendering::{CssColor, CssFont, Pos, Renderable};
 use self::utils::Timer;
 use wasm_bindgen::prelude::*;
 use web_sys::{HtmlCanvasElement, KeyboardEvent};
+
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub struct Game {
@@ -52,6 +56,7 @@ impl Game {
 			explosion_tick: 0,
 			score: entites::Score::new(
 				CssColor::new(0, 50, 200),
+				CssColor::new(200, 50, 0),
 				CssFont::monospace(20),
 				"Score".to_owned(),
 				Pos::new(600.0, 20.0),
@@ -105,7 +110,14 @@ impl Game {
 
 		game_tick.check(ts, |off| {
 			for _ in 0..(off + TICK) / TICK {
-				projectiles.retain(|e| !e.needs_removal());
+				projectiles.retain(|e| {
+					if e.needs_removal() {
+						score.add(-1);
+						false
+					} else {
+						true
+					}
+				});
 				for p in projectiles.iter_mut() {
 					p.tick();
 				}
@@ -114,7 +126,14 @@ impl Game {
 					for e in enemies.iter_mut() {
 						e.tick();
 					}
-					enemies.retain(|e| !e.needs_removal());
+					enemies.retain(|e| {
+						if e.needs_removal() {
+							score.add(-10);
+							false
+						} else {
+							true
+						}
+					});
 					*enemy_tick = 0;
 				} else {
 					*enemy_tick += 1;

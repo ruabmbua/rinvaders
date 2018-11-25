@@ -4,17 +4,22 @@ use std::fmt::Write;
 pub struct Score {
     pos: Pos,
     pso: Pso,
+    bad_pso: Pso,
     value: i32,
     name: String,
     label_buf: String,
 }
 
 impl Score {
-    pub fn new(color: CssColor, font: CssFont, name: String, pos: Pos) -> Self {
+    pub fn new(color: CssColor, bad_color: CssColor, font: CssFont, name: String, pos: Pos) -> Self {
         let mut r = Self {
             pos,
             pso: Pso {
                 fill_color: Some(color),
+                font: Some(font),
+            },
+            bad_pso: Pso {
+                fill_color: Some(bad_color),
                 font: Some(font),
             },
             name,
@@ -39,7 +44,11 @@ impl Score {
 
 impl Renderable for Score {
     fn draw(&self, pxs: &mut PixelScreen) {
-        self.pso.bind(pxs);
+        if self.value < 0 {
+            self.bad_pso.bind(pxs);
+        } else {
+            self.pso.bind(pxs);
+        }
         pxs.draw_text(&self.label_buf, self.pos);
     }
 }
