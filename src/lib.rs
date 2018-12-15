@@ -162,7 +162,7 @@ impl Game {
 					if let Some(e) = enemies
 						.iter()
 						.enumerate()
-						.find(|(i, e)| e.intersects_with(p.pos_x, p.pos_y))
+						.find(|(_, e)| e.intersects_with(p.pos_x, p.pos_y))
 						.map(|(i, _)| i)
 					{
 						enemies.remove(e);

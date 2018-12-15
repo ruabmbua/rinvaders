@@ -41,7 +41,7 @@ impl Input {
         self.gp_shoot = shoot;
 	}
 
-    pub fn update(&mut self, ts: u32) {
+    pub fn update(&mut self, _: u32) {
         for e in self.event_queue.drain(0..self.event_queue.len()) {
             log!("{:?}", e);
             match e {
