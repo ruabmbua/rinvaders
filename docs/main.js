@@ -11,6 +11,7 @@ const { hello, Game } = wasm_bindgen;
 // Gamepad array (they are appended on plug and play).
 // ---------------------------------------------------
 gamepads = [];
+gamepad_mappings = [];
 
 // Main function where game is initialized.
 // ----------------------------------------
@@ -45,7 +46,18 @@ function run() {
         var gamepad = e.gamepad;
         console.log("Gamepad " + gamepad.id + " connected!");
         console.log(gamepad);
-        gamepads.push(gamepad);
+
+        if (gamepad.mapping == "default") {
+            console.log("Has default mapping.");
+            gamepad_mappings.push("default");
+            gamepads.push(gamepad);
+        } else if (gamepad.id.indexOf("Logitech Gamepad F710") !== -1) {
+            console.log("Has Logitech F710 mapping")
+            gamepad_mappings.push("logitech_f710");
+            gamepads.push(gamepad);
+        } else {
+            console.log("Unsupported mapping");
+        }
     }, false);
 
     // Request the first game loop (animation frame).
@@ -53,22 +65,44 @@ function run() {
     window.requestAnimationFrame(update);
 }
 
+function default_gamepad(state, gamepad) {
+    state.left |= gamepad.buttons[14].pressed;
+    state.right |= gamepad.buttons[15].pressed;
+    state.shoot |= gamepad.buttons[0].pressed;
+}
+
+function logitech_f710_gamepad(state, gamepad) {
+    state.left |= gamepad.axes[6] < -0.5;
+    state.right |= gamepad.axes[6] > 0.5;
+    state.shoot |= gamepad.buttons[0].pressed;
+}
+
 // Regular update function. Will be called by requestAnimationFrame.
 // -----------------------------------------------------------------
 function update(ts) {
     // Gamepad input processing (was to lazy to do this in the rust code).
     // -------------------------------------------------------------------
-    var left = false;
-    var right = false;
-    var shoot = false;
-
-    for(var i = 0; i < gamepads.length; i++) {
-        left |= gamepads[i].axes[6] < -0.5;
-        right |= gamepads[i].axes[6] > 0.5;
-        shoot |= gamepads[i].buttons[0].pressed;    
+    var gamepad_state = {
+        left: false,
+        right:  false,
+        shoot: false
     }
 
-    game.set_gamepad_state(left, right, shoot);
+    for (var i = 0; i < gamepads.length; i++) {
+        switch (gamepad_mappings[i]) {
+            case "default":
+                default_gamepad(gamepad_state, gamepads[i])
+                break;
+            case "logitech_f710":
+                logitech_f710_gamepad(gamepad_state, gamepads[i]);
+                break;
+            default:
+                console.error("Not supported gamepad mapping got added.");
+                break;
+        }
+    }
+
+    game.set_gamepad_state(gamepad_state.left, gamepad_state.right, gamepad_state.shoot);
 
     // Update, and then render the game. The update function gets to know the
     // current high res timestamp of the running animation.
