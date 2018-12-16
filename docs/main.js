@@ -47,9 +47,9 @@ function run() {
         console.log("Gamepad " + gamepad.id + " connected!");
         console.log(gamepad);
 
-        if (gamepad.mapping == "default") {
-            console.log("Has default mapping.");
-            gamepad_mappings.push("default");
+        if (gamepad.mapping == "standard") {
+            console.log("Has standard mapping.");
+            gamepad_mappings.push("standard");
             gamepads.push(gamepad);
         } else if (gamepad.id.indexOf("Logitech Gamepad F710") !== -1) {
             console.log("Has Logitech F710 mapping")
@@ -65,7 +65,7 @@ function run() {
     window.requestAnimationFrame(update);
 }
 
-function default_gamepad(state, gamepad) {
+function standard_gamepad(state, gamepad) {
     state.left |= gamepad.buttons[14].pressed;
     state.right |= gamepad.buttons[15].pressed;
     state.shoot |= gamepad.buttons[0].pressed;
@@ -90,8 +90,8 @@ function update(ts) {
 
     for (var i = 0; i < gamepads.length; i++) {
         switch (gamepad_mappings[i]) {
-            case "default":
-                default_gamepad(gamepad_state, gamepads[i])
+            case "standard":
+                standard_gamepad(gamepad_state, gamepads[i])
                 break;
             case "logitech_f710":
                 logitech_f710_gamepad(gamepad_state, gamepads[i]);
