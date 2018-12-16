@@ -97,21 +97,21 @@ impl Game {
 
 		// Draw all the projectile entites, and bind the PROJECTILE_PSO before doing so.
 		// -----------------------------------------------------------------------------
-		self::entites::PROJECTILE_PSO.bind(&self.renderer);
+		entites::Projectile::pso().bind(&self.renderer);
 		for p in self.projectiles.iter() {
 			p.draw(&self.renderer);
 		}
 
 		// Bind enemy PSO, and then draw all enemies.
 		// ------------------------------------------
-		self::entites::ENEMY_PSO.bind(&self.renderer);
+		entites::Enemy::pso().bind(&self.renderer);
 		for e in self.enemies.iter() {
 			e.draw(&self.renderer);
 		}
 
 		// Bind the explosion PSO, and then draw all explosions.
 		// ----------------------------------------------------
-		self::entites::EXPLOSION_PSO.bind(&self.renderer);
+		self::entites::Explosion::pso().bind(&self.renderer);
 		for x in self.explosions.iter() {
 			x.draw(&self.renderer);
 		}
@@ -225,7 +225,7 @@ impl Game {
 				// They are spawned along the horizontal axis on the top of the canvas.
 				// ------------------------------------------------------------------------------
 				if *enemy_spawn_tick == 200 {
-					enemies.push(entites::Enemy::new(utils::rand(79)));
+					enemies.push(entites::Enemy::new_random());
 					*enemy_spawn_tick = 0;
 				} else {
 					*enemy_spawn_tick += 1;
