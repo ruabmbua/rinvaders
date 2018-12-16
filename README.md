@@ -7,7 +7,7 @@ the web platform.
 
 You can find a live demo [here](https://ruabmbua.github.io/rinvaders/) (do not forget to use a browser supporting webassembly).
 
-rustdoc with all private items can be found [here](https://ruabmbua.github.io/rinvaders/rustdoc/rinvaders/index.html)
+rustdoc with all private items can be found [here](https://ruabmbua.github.io/rinvaders/rustdoc/rinvaders/index.html).
 
 ## Control
 
