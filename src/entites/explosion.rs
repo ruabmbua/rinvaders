@@ -36,7 +36,7 @@ impl Explosion {
 }
 
 impl Renderable for Explosion {
-    fn draw(&self, pxs: &mut PixelScreen) {
+    fn draw(&self, pxs: &PixelScreen) {
         let frames = &[
             &[(0, 0), (2, 0), (1, 1), (0, 2), (2, 2)][..],
             &[(1, 0), (0, 1), (2, 1), (1, 2)][..],

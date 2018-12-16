@@ -96,7 +96,7 @@ impl Player {
 }
 
 impl Renderable for Player {
-    fn draw(&self, pxs: &mut PixelScreen) {
+    fn draw(&self, pxs: &PixelScreen) {
         let px_list = &[(1, 0), (0, 1), (1, 1), (2, 1), (0, 2), (2, 2)];
 
         self.pso.bind(pxs);

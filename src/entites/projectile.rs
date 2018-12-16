@@ -34,7 +34,7 @@ impl Projectile {
 }
 
 impl Renderable for Projectile {
-    fn draw(&self, pxs: &mut PixelScreen) {
+    fn draw(&self, pxs: &PixelScreen) {
         pxs.draw_rect(
             Pos::new((self.pos_x) as f64 * 10.0, (self.pos_y) as f64 * 10.0),
             10.0,

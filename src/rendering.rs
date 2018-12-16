@@ -1,6 +1,10 @@
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement};
 
+lazy_static! {
+    pub static ref COLOR_WHITE: CssColor = CssColor::new(0, 0, 0);
+}
+
 pub struct PixelScreen {
     canvas_ctx: CanvasRenderingContext2d,
     width: u32,
@@ -19,23 +23,23 @@ impl PixelScreen {
         }
     }
 
-    pub fn draw(&mut self, display_list: &[&dyn Renderable]) {
+    pub fn draw(&self, display_list: &[&dyn Renderable]) {
         for renderable in display_list {
             renderable.draw(self);
         }
     }
 
-    pub fn draw_text(&mut self, text: &str, pos: Pos) {
+    pub fn draw_text(&self, text: &str, pos: Pos) {
         self.canvas_ctx.fill_text(text, pos.x, pos.y).unwrap();
     }
 
-    pub fn draw_rect(&mut self, pos: Pos, width: f64, height: f64) {
+    pub fn draw_rect(&self, pos: Pos, width: f64, height: f64) {
         self.canvas_ctx.fill_rect(pos.x, pos.y, width, height);
     }
 
-    pub fn clear(&mut self) {
+    pub fn clear(&self) {
         self.canvas_ctx
-            .set_fill_style(&CssColor::new(255, 255, 255).into());
+            .set_fill_style(&((*COLOR_WHITE).into()));
         self.canvas_ctx
             .clear_rect(0.0, 0.0, self.width as f64, self.height as f64);
     }
@@ -101,7 +105,7 @@ pub struct Pso {
 }
 
 impl Pso {
-    pub fn bind(&self, pxs: &mut PixelScreen) {
+    pub fn bind(&self, pxs: &PixelScreen) {
         if let Some(c) = self.fill_color {
             pxs.canvas_ctx.set_fill_style(&c.into());
         }
@@ -113,5 +117,5 @@ impl Pso {
 }
 
 pub trait Renderable {
-    fn draw(&self, pxs: &mut PixelScreen);
+    fn draw(&self, pxs: &PixelScreen);
 }

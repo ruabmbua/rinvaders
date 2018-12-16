@@ -1,3 +1,7 @@
+/**
+ * A very minimalistic stylesheet to get the canvas into the center of the page.
+ */
+
 #main_canvas {
     margin: auto;
     display: block;

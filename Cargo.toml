@@ -4,18 +4,32 @@ version = "0.1.0"
 authors = ["Roland Ruckerbauer <roland.rucky@gmail.com>"]
 edition = "2018"
 license = "MIT"
+keywords = ["game", "wasm"]
 
 [lib]
+# This is important, normally Cargo would build a rust library, but
+# we need a C style dynamically loadable shared library to interact
+# with the wasm runtime in browsers (to get it loaded).
 crate-type = ["cdylib"]
 
 [dependencies]
+# This library is a utility, which allows better and easier integration with the wasm module.
+# It provides some attributes, which allow exporting or importing stuff from other js or wasm
+# modules.
 wasm-bindgen = "0.2"
+
 lazy_static = "1.2"
+
+# Wasm optimized global alloc implementation. It reduces code size and complexity.
 wee_alloc = "0.4"
 
+# Complete rust wrapper for JS APIS available in all ecmascript conformant engines.
+# E.g. stuff like JS string manipulation, dates, random, etc...
 [dependencies.js-sys]
 version = "0.3"
 
+# Rust wrapper around most web APIs. With it you can access anything in the DOM and you have
+# essentially the same level of control over the DOM as Javascript does.
 [dependencies.web-sys]
 version = "0.3"
 features = ["Window", "console", "HtmlCanvasElement", "CanvasRenderingContext2d", "KeyboardEvent"]

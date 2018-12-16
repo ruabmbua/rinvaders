@@ -41,6 +41,7 @@
         return ptr;
     }
     /**
+    * Test exported rust function (to wasm module).
     * @param {string} arg0
     * @returns {void}
     */
@@ -203,6 +204,8 @@ function freeGame(ptr) {
     wasm.__wbg_game_free(ptr);
 }
 /**
+* Main type that holds all game state and provides functionality to update and
+* render the game.
 */
 class Game {
 
@@ -213,6 +216,10 @@ class Game {
     }
 
     /**
+    * Create an instance of the **Game** type. Requires *canvas* parameter which should be the DOM
+    * node of the canvas, into which the game should be rendered.
+    *
+    * Initializes the game.
     * @param {any} arg0
     * @returns {}
     */
@@ -220,6 +227,7 @@ class Game {
         this.ptr = wasm.game_new(addHeapObject(arg0));
     }
     /**
+    * Forwards keyboard events to the **input** module.
     * @param {boolean} arg0
     * @param {any} arg1
     * @returns {void}
@@ -228,12 +236,20 @@ class Game {
         return wasm.game_keyboard_event(this.ptr, arg0, addHeapObject(arg1));
     }
     /**
+    * Render the game. This will clear the canvas, and then redraw the whole scene.
+    * Does not need mutable access, because it immutably reads game date, and draws
+    * to the canvas. Canvas draw operations have some kind of interior mutability,
+    * which allows usage through non mutable references.
     * @returns {void}
     */
     render() {
         return wasm.game_render(this.ptr);
     }
     /**
+    * Update the game.
+    *
+    * This processes all input, and calculates the next state of the game depending on
+    * previous state, current input, and the current timestamp.
     * @param {number} arg0
     * @returns {void}
     */
@@ -241,6 +257,9 @@ class Game {
         return wasm.game_update(this.ptr, arg0);
     }
     /**
+    * Set the current gamepad state. Axis movement and shoot.
+    *
+    * This will forward the input to the **input** module.
     * @param {boolean} arg0
     * @param {boolean} arg1
     * @param {boolean} arg2

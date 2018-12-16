@@ -42,7 +42,7 @@ impl FpsCounter {
 }
 
 impl Renderable for FpsCounter {
-	fn draw(&self, pxs: &mut PixelScreen) {
+	fn draw(&self, pxs: &PixelScreen) {
 		self.pso.bind(pxs);
 		pxs.draw_text(&self.print_buf, Pos::new(0.0, 20.0));
 	}

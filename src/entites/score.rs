@@ -43,7 +43,7 @@ impl Score {
 
 
 impl Renderable for Score {
-    fn draw(&self, pxs: &mut PixelScreen) {
+    fn draw(&self, pxs: &PixelScreen) {
         if self.value < 0 {
             self.bad_pso.bind(pxs);
         } else {

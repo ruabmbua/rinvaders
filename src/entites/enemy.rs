@@ -77,7 +77,7 @@ impl Enemy {
 }
 
 impl Renderable for Enemy {
-    fn draw(&self, pxs: &mut PixelScreen) {
+    fn draw(&self, pxs: &PixelScreen) {
         let px_list = self.kind.px_list();
 
         for px in px_list {
