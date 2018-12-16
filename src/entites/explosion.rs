@@ -1,5 +1,5 @@
 //! Explosion entity module.
-//! 
+//!
 //! The explosion spawns every time a enemy is destroyed on the position of the destroyed enemy / the involved projectile.
 //! In comparison to some other entities, the explosing has an animation cycle with 2 animation steps.
 //! The explosion lasts only for a specific time, and will be destroyed after it passed.
@@ -14,7 +14,7 @@ lazy_static! {
 }
 
 /// Explosion entity.
-/// 
+///
 /// Contains relevant state like position and animation progress.
 pub struct Explosion {
     pos_x: u32,
@@ -54,7 +54,7 @@ impl Explosion {
 
 impl Renderable for Explosion {
     /// Render the animation of the explosion to the **PixelScreen**.
-    /// 
+    ///
     /// This has two repeating animation steps, which depend on the **progress** field in the entity.
     fn draw(&self, pxs: &PixelScreen) {
         let frames = &[

@@ -1,6 +1,6 @@
 //! Projectile entity module.
-//! 
-//! Projectiles are spawned by the player, and they fly up towards enemies to kill them. When they hit an enemy, both die, and 
+//!
+//! Projectiles are spawned by the player, and they fly up towards enemies to kill them. When they hit an enemy, both die, and
 //! the player gets score. If the projectile reaches the top of the screen and goes into the void, it dies and the player
 //! looses some of its score.
 

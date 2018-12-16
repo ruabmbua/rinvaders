@@ -8,9 +8,9 @@
 //!   * Spawn on random location on top of the screen every enemy spawn tick.
 //!   * There are several visual types of enemies. They each have a different bounding box for collision.
 
+use self::EnemyType::*;
 use crate::rendering::{CssColor, PixelScreen, Pos, Pso, Renderable};
 use crate::utils;
-use self::EnemyType::*;
 
 lazy_static! {
     /// Pso for enemies. Fill colored black pixels.
@@ -31,7 +31,7 @@ enum EnemyType {
 
 impl EnemyType {
     /// All variants as a static slice.
-    /// 
+    ///
     /// TODO: Consider using not unsafe way to transmute random number into variant. This uses a
     /// byte const data per variant.
     const VARIANTS: &'static [Self] = &[Star, Thin, Arrow];
@@ -99,7 +99,7 @@ impl Enemy {
         self.pos_y += 1;
     }
 
-    /// Checks, if this enemy has to be removed, because it touches the bottom of the screen. 
+    /// Checks, if this enemy has to be removed, because it touches the bottom of the screen.
     pub fn needs_removal(&self) -> bool {
         if self.pos_y + self.kind.bounds().1 > 60 {
             true
@@ -110,7 +110,7 @@ impl Enemy {
 
     /// Check the enemy type bounding box against the given position. Returns true
     /// on intersection.
-    /// 
+    ///
     /// TODO: Convert to pixel perfect collision detection by reusing the **px_list**.
     pub fn intersects_with(&self, x: u32, y: u32) -> bool {
         x >= self.pos_x

@@ -54,15 +54,15 @@ impl Timer {
 
     /// Use this method in the game loop. Supply the current high res *ts*, and a closure to execute.
     /// The method will then only execute the callback closure, if a timer event was raised (e.g. ts reached, interval...).
-    /// 
+    ///
     /// The closure is allowed to mutably capture references into its scope. It also receives an argument, which contains
     /// the time deviation in ms. Time deviation happens, if the game loop does not get enough updates. It will result in
     /// timer event being raised to late.
     /// You can use the deviation in the closure to determine how many times the closure content should be run (e.g. in
     /// a for loop), to correct the deviation in your game logic.
-    /// 
+    ///
     /// The return value of this method is either `Some(result_of_callback)`, or None, when there was no event.
-    /// 
+    ///
     /// TODO: Repair the interval refresh and callback calling logic, to include automatic handling of time deviation on low
     /// FPS, and refresh the timer correctly (Keep the interval correctly by using time deviation to calculate new *future_ts*).
     pub fn check<F, T>(&mut self, ts: u32, mut callback: F) -> Option<T>
@@ -79,7 +79,7 @@ impl Timer {
             let ret = (callback)(off);
 
             // If this is a interval timer, refresh the value with the new one. The new value is not calculated based
-            // on the old *future_ts*, but on the current ts (the time the last event was raised). This is probably 
+            // on the old *future_ts*, but on the current ts (the time the last event was raised). This is probably
             // incorrect. TODO: Fix.
             // ------------------------------------------------------------------------------------------------------
             if let Some(i) = self.interval {

@@ -64,9 +64,9 @@ impl PixelScreen {
 }
 
 /// Css color type. Used as a type, which can be supplied to DOM API by calling **into()**.
-/// 
+///
 /// TODO: This type is convenient, but has a real performance impact, because every time it
-/// is used as a property in a PSO, before binding it has to be turned into a Css property, 
+/// is used as a property in a PSO, before binding it has to be turned into a Css property,
 /// which incurs an extra string buffer allocation, formatter API call, and JsValue creation.
 /// Creating a caching system for that kind of stuff should be a good way to go.
 #[derive(Copy, Clone, PartialEq)]
@@ -85,7 +85,7 @@ impl CssColor {
 
 impl Into<JsValue> for CssColor {
     /// Convert color into a usable CSS property string (JsValue).
-    /// 
+    ///
     /// TODO: Caching system.
     fn into(self) -> JsValue {
         JsValue::from(format!("rgb({},{},{})", self.r, self.g, self.b))
@@ -94,7 +94,7 @@ impl Into<JsValue> for CssColor {
 
 /// Css font helper. Use it to create a new font, and call **into()** to convert it into a String
 /// Css property string.
-/// 
+///
 /// TODO: Also cache this stuff.
 #[derive(Copy, Clone, PartialEq)]
 pub struct CssFont {
