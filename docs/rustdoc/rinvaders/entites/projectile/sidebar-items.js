@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["PROJECTILE_PSO",""]],"struct":[["PROJECTILE_PSO","Projectils PSO (red fill color)."],["Projectile","The projectile with pos on screen + direction in which to fly (unused)."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["window","Getter for the `Window` object"]],"mod":[["console",""]],"struct":[["CanvasRenderingContext2d","The `CanvasRenderingContext2D` object"],["HtmlCanvasElement","The `HTMLCanvasElement` object"],["KeyboardEvent","The `KeyboardEvent` object"],["Window","The `Window` object"]]});

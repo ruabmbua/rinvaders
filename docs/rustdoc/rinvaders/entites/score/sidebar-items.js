@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Score","State for the score. Its pos on screen, PSO for drawing, PSO for drawing negative score, current value, name of the score field, and buffer for the current label content."]]});

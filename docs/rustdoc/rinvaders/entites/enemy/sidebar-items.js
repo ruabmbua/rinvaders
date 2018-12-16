@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EnemyType","Types of enemies (different visuals and bounding boxes)"]],"static":[["ENEMY_PSO",""]],"struct":[["ENEMY_PSO","Pso for enemies. Fill colored black pixels."],["Enemy","The actual enemy entity. Contains position and enemy type."]]});
